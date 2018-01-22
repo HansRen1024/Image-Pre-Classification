@@ -1,4 +1,4 @@
-# Extracting-Hist-Features-to-do-PreClassification-using-Decision-Tree-or-Random-Forest
+# Extracting-Hist-Features-to-do-PreClassification-using-Decision-Tree-or-Random-Forest-or-Adaboost
 NOTE: This is an indea, not a solution. You can use any algorithm to extract features or classificate.
 
 CNN always output a result while given an image. So I am thinking of deploying a pre-classification algorithm to decide wether throw the image into CNN or give out the result.
