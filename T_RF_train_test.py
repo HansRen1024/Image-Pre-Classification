@@ -11,6 +11,7 @@ import os
 import numpy as np
 from sklearn.externals import joblib
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import cross_val_score
 from skimage import transform
 import datetime
 
@@ -26,8 +27,12 @@ def hist_feature_gray(list_txt):
         line = f.readline()
         num = 2
         while line:
+            img_path = os.path.join(root_path,line.split(' ')[0])
+            if not os.path.isfile(img_path):
+                line = f.readline()
+                continue
             print("%d dealing with %s ..." %(num, line.split(' ')[0]))
-            img = cv2.imread(root_path+line.split(' ')[0], 0)
+            img = cv2.imread(img_path, 0)
             img=transform.resize(img, (227, 227,3))
             img = img.astype(np.uint8)
             hist_cv = cv2.calcHist([img],[0],None,[256],[0,256]).reshape(1,-1)
@@ -111,11 +116,13 @@ def train_model():
 #    print t_pred[:100]
     
     # criterion: 分支的标准(gini/entropy), n_estimators: 树的数量, bootstrap: 是否随机有放回, n_jobs: 可并行运行的数量
-    rf = RandomForestClassifier(n_estimators=10,criterion='gini',bootstrap=True,n_jobs=4,random_state=0) # 随机森林
+    rf = RandomForestClassifier(n_estimators=25,criterion='entropy',bootstrap=True,n_jobs=4,random_state=80) # 随机森林
     rf = rf.fit(X_train, y_train)
     joblib.dump(rf, 'rf_model.pkl')
     t4 = datetime.datetime.now()
     print("time of training model: %0.2f"%(t4-t3).total_seconds())
+    scores = cross_val_score(rf, X_train, y_train,scoring='accuracy' ,cv=3)
+    print("Train Cross Avg. Score: %0.4f (+/- %0.4f)" % (scores.mean(), scores.std() * 2))
     
 def test_model():
     global rf_score
@@ -126,10 +133,12 @@ def test_model():
     #load model & test
     rf_model = joblib.load('rf_model.pkl')
     rf_score = rf_model.score(X_test, y_test)
-    #rf_pred = rf_model.predict(X_test)
-    #print rf_pred[:100]
+    rf_pred = rf_model.predict(X_test)
+    print rf_pred[:10]
     t5 = datetime.datetime.now()
     print("time of testing model: %0.2f"%(t5-t4).total_seconds())
+    scores = cross_val_score(rf_model, X_test, y_test,scoring='accuracy' ,cv=10)
+    print("Test Cross Avg. Score: %0.4f (+/- %0.4f)" % (scores.mean(), scores.std() * 2))
 
 
 mode=1
@@ -146,10 +155,10 @@ test_list = "test_all.txt"
 
 if __name__ == '__main__':
     
-    save_feature()
+#    save_feature()
     
-#    train_model()
+    train_model()
 
-#    test_model()
+    test_model()
     
     
