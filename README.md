@@ -6,6 +6,6 @@ CNN always output a result while given an image. So I am thinking of deploying a
 Content of train_all.txt and test_all.txt is:
 image path + space + category index
 
-中文地址：http://blog.csdn.net/renhanchi/article/details/79127914
+特征提取&分类博客中文地址：http://blog.csdn.net/renhanchi/article/details/79127914
 
-        http://blog.csdn.net/renhanchi/article/details/79139415
+寻找最优参数博客中文地址：http://blog.csdn.net/renhanchi/article/details/79139415
