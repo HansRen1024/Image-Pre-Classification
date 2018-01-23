@@ -28,10 +28,12 @@ def gray(img_path):
 def rgb(img_path):
     img = cv2.imread(img_path)
     img=transform.resize(img, (227, 227,3))
-    img = img.astype(np.uint8)
     b = img[:,:,0]*255
     g = img[:,:,1]*255
     r = img[:,:,2]*255
+    b = b.astype(np.uint8)
+    g = g.astype(np.uint8)
+    r = r.astype(np.uint8)
     feature_b = cv2.calcHist([b],[0],None,[256],[0,256]).reshape(1,-1)
     feature_g = cv2.calcHist([g],[0],None,[256],[0,256]).reshape(1,-1)
     feature_r = cv2.calcHist([r],[0],None,[256],[0,256]).reshape(1,-1)
