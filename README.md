@@ -7,4 +7,5 @@ Content of train_all.txt and test_all.txt is:
 image path + space + category index
 
 中文地址：http://blog.csdn.net/renhanchi/article/details/79127914
+
         http://blog.csdn.net/renhanchi/article/details/79139415
